@@ -1,4 +1,4 @@
-package com.baims.dailyforcast.ui.theme
+package com.baims.dailyforcast.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 

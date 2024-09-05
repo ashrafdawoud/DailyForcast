@@ -1,6 +1,5 @@
-package com.baims.dailyforcast.ui.theme
+package com.baims.dailyforcast.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
