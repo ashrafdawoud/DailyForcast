@@ -7,9 +7,9 @@ import com.baims.dailyforcast.data.local.converter.*
 
 @Entity
 data class WeatherResponseEntity(
-    @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    @PrimaryKey
     val cityId: Int,
+    val id: Long = 0,
     val cod: String,
     val message: Int,
     val cnt: Int,

@@ -5,7 +5,7 @@ data class WeatherResponseModel(
     val message: Int,
     val cnt: Int,
     val list: List<WeatherItemModel>,
-    val city: CityModel
+    val city: CityResponseModel
 )
 
 data class WeatherItemModel(
@@ -60,7 +60,7 @@ data class SysModel(
     val pod: String
 )
 
-data class CityModel(
+data class CityResponseModel(
     val id: Int,
     val name: String,
     val cord: CordModel,

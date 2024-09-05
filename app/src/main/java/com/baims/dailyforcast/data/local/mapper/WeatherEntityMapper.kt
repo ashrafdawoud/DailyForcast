@@ -11,6 +11,7 @@ import com.baims.dailyforcast.data.local.entity.WeatherItemEntity
 import com.baims.dailyforcast.data.local.entity.WeatherResponseEntity
 import com.baims.dailyforcast.data.local.entity.WindEntity
 import com.baims.dailyforcast.domain.model.CityModel
+import com.baims.dailyforcast.domain.model.CityResponseModel
 import com.baims.dailyforcast.domain.model.CloudsModel
 import com.baims.dailyforcast.domain.model.CordModel
 import com.baims.dailyforcast.domain.model.MainModel
@@ -22,10 +23,10 @@ import com.baims.dailyforcast.domain.model.WeatherResponseModel
 import com.baims.dailyforcast.domain.model.WindModel
 
 
-fun WeatherResponseModel.toWeatherResponseEntity(): WeatherResponseEntity =
+fun WeatherResponseModel.toWeatherResponseEntity(cityId:Int): WeatherResponseEntity =
     WeatherResponseEntity(
         cod = cod,
-        cityId = city.id,
+        cityId = cityId,
         message = message,
         cnt = cnt,
         list = list.map { it.toWeatherItemEntity() },
@@ -106,8 +107,8 @@ fun MainModel.toWeatherModel(): MainEntity =
         tempKf = tempKf
     )
 
-fun CityEntity.toCityModel(): CityModel =
-    CityModel(
+fun CityEntity.toCityModel(): CityResponseModel =
+    CityResponseModel(
         id = id,
         name = name,
         cord = cord.toModel(),
@@ -118,7 +119,7 @@ fun CityEntity.toCityModel(): CityModel =
         sunset = sunset
     )
 
-fun CityModel.toCityModel(): CityEntity =
+fun CityResponseModel.toCityModel(): CityEntity =
     CityEntity(
         id = id,
         name = name,

@@ -1,5 +1,8 @@
 package com.baims.dailyforcast.di
 
+import com.baims.dailyforcast.data.local.dao.WeatherDao
+import com.baims.dailyforcast.data.local.datasource.ForecastDataLocalDataSource
+import com.baims.dailyforcast.data.local.datasource.ForecastDataLocalDataSourceImp
 import com.baims.dailyforcast.data.remote.api.ForecastApi
 import com.baims.dailyforcast.data.remote.datasource.ForecastDataRemoteDataSource
 import com.baims.dailyforcast.data.remote.datasource.ForecastDataRemoteDataSourceImp
@@ -16,4 +19,9 @@ object DataSourceModule {
     @Provides
     fun provideForecastDataRemoteDataSource(forecastApi: ForecastApi): ForecastDataRemoteDataSource =
         ForecastDataRemoteDataSourceImp(forecastApi)
+
+    @Singleton
+    @Provides
+    fun provideForecastDataLocalDataSource(weatherDao: WeatherDao): ForecastDataLocalDataSource =
+        ForecastDataLocalDataSourceImp(weatherDao)
 }

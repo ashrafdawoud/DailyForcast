@@ -10,7 +10,7 @@ import com.baims.dailyforcast.data.remote.dto.WeatherDto
 import com.baims.dailyforcast.data.remote.dto.WeatherItemDto
 import com.baims.dailyforcast.data.remote.dto.WeatherResponseDto
 import com.baims.dailyforcast.data.remote.dto.WindDto
-import com.baims.dailyforcast.domain.model.CityModel
+import com.baims.dailyforcast.domain.model.CityResponseModel
 import com.baims.dailyforcast.domain.model.CloudsModel
 import com.baims.dailyforcast.domain.model.CordModel
 import com.baims.dailyforcast.domain.model.MainModel
@@ -65,8 +65,8 @@ fun MainDto.toWeatherModel(): MainModel =
         tempKf = tempKf
     )
 
-fun CityDto.toCityModel(): CityModel =
-    CityModel(
+fun CityDto.toCityModel(): CityResponseModel =
+    CityResponseModel(
         id = id,
         name = name,
         cord = cord.toModel(),
