@@ -26,22 +26,22 @@ fun WeatherResponseDto.toWeatherResponseModel(): WeatherResponseModel =
         cod = cod,
         message = message,
         cnt = cnt,
-        list = list.map { it.toWeatherItemModel() },
-        city = city.toCityModel(),
+        list = list?.map { it.toWeatherItemModel() },
+        city = city?.toCityModel(),
 
         )
 
 fun WeatherItemDto.toWeatherItemModel(): WeatherItemModel =
     WeatherItemModel(
         dt = dt,
-        main = main.toWeatherModel(),
-        weather = weather.map { it.toWeatherModel() },
-        clouds = clouds.toCloudsModel(),
-        wind = wind.toWindModel(),
+        main = main?.toWeatherModel(),
+        weather = weather?.map { it.toWeatherModel() },
+        clouds = clouds?.toCloudsModel(),
+        wind = wind?.toWindModel(),
         visibility = visibility,
         pop = pop,
         rain = rain?.toRainModel(),
-        sys = sys.toSysModel(),
+        sys = sys?.toSysModel(),
         dtTxt = dtTxt
     )
 
@@ -69,7 +69,7 @@ fun CityDto.toCityModel(): CityResponseModel =
     CityResponseModel(
         id = id,
         name = name,
-        cord = cord.toModel(),
+        cord = cord?.toModel(),
         country = country,
         population = population,
         timezone = timezone,

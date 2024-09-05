@@ -1,124 +1,122 @@
 package com.baims.dailyforcast.data.remote.dto
 
+import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class WeatherResponseDto(
     @SerializedName("cod")
-    val cod: String,
+    val cod: String? = null,
     @SerializedName("message")
-    val message: Int,
+    val message: Int? = null,
     @SerializedName("cnt")
-    val cnt: Int,
+    val cnt: Int? = null,
     @SerializedName("list")
-    val list: List<WeatherItemDto>,
+    val list: List<WeatherItemDto>? = null,
     @SerializedName("city")
-    val city: CityDto
+    val city: CityDto? = null
 )
 
 data class WeatherItemDto(
     @SerializedName("dt")
-    val dt: Long,
+    val dt: Long? = null,
     @SerializedName("main")
-    val main: MainDto,
+    val main: MainDto? = null,
     @SerializedName("weather")
-    val weather: List<WeatherDto>,
+    val weather: List<WeatherDto>? = null,
     @SerializedName("clouds")
-    val clouds: CloudsDto,
+    val clouds: CloudsDto? = null,
     @SerializedName("wind")
-    val wind: WindDto,
+    val wind: WindDto? = null,
     @SerializedName("visibility")
-    val visibility: Int,
+    val visibility: Int? = null,
     @SerializedName("pop")
-    val pop: Double,
+    val pop: Double? = null,
     @SerializedName("rain")
-    val rain: RainDto?,
+    val rain: RainDto? = null,
     @SerializedName("sys")
-    val sys: SysDto,
+    val sys: SysDto? = null,
     @SerializedName("dt_txt")
-    val dtTxt: String
+    val dtTxt: String? = null
 )
 
 data class MainDto(
     @SerializedName("temp")
-    val temp: Double,
+    val temp: Double? = null,
     @SerializedName("feels_like")
-    val feelsLike: Double,
+    val feelsLike: Double? = null,
     @SerializedName("temp_min")
-    val tempMin: Double,
+    val tempMin: Double? = null,
     @SerializedName("temp_max")
-    val tempMax: Double,
+    val tempMax: Double? = null,
     @SerializedName("pressure")
-    val pressure: Int,
+    val pressure: Int? = null,
     @SerializedName("sea_level")
-    val seaLevel: Int,
+    val seaLevel: Int? = null,
     @SerializedName("grnd_level")
-    val grndLevel: Int,
+    val grndLevel: Int? = null,
     @SerializedName("humidity")
-    val humidity: Int,
+    val humidity: Int? = null,
     @SerializedName("temp_kf")
-    val tempKf: Double
-
+    val tempKf: Double? = null
 )
 
 data class WeatherDto(
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("main")
-    val main: String,
+    val main: String? = null,
     @SerializedName("description")
-    val description: String,
+    val description: String? = null,
     @SerializedName("icon")
-    val icon: String
-
+    val icon: String? = null
 )
 
 data class CloudsDto(
     @SerializedName("all")
-    val all: Int
+    val all: Int? = null
 )
 
 data class WindDto(
     @SerializedName("speed")
-    val speed: Double,
+    val speed: Double? = null,
     @SerializedName("deg")
-    val deg: Int,
+    val deg: Int? = null,
     @SerializedName("gust")
-    val gust: Double
+    val gust: Double? = null
 )
 
 data class RainDto(
     @SerializedName("3h")
-    val threeHours : Double
+    val threeHours: Double? = null
 )
 
 data class SysDto(
     @SerializedName("pod")
-    val pod: String
+    val pod: String? = null
 )
 
 data class CityDto(
     @SerializedName("id")
-    val id: Int,
+    val id: Int? = null,
     @SerializedName("name")
-    val name: String,
+    val name: String? = null,
     @SerializedName("coord")
-    val cord: CordDto,
+    val cord: CordDto? = null,
     @SerializedName("country")
-    val country: String,
+    val country: String? = null,
     @SerializedName("population")
-    val population: Int,
+    val population: Int? = null,
     @SerializedName("timezone")
-    val timezone: Int,
+    val timezone: Int? = null,
     @SerializedName("sunrise")
-    val sunrise: Long,
+    val sunrise: Long? = null,
     @SerializedName("sunset")
-    val sunset: Long
+    val sunset: Long? = null
 )
 
 data class CordDto(
     @SerializedName("lat")
-    val lat: Double,
+    val lat: Double? = null,
     @SerializedName("lon")
-    val lon: Double
-
+    val lon: Double? = null
 )

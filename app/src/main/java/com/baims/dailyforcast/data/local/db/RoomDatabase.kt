@@ -13,10 +13,10 @@ import com.baims.dailyforcast.data.local.converter.WeatherItemListConverter
 import com.baims.dailyforcast.data.local.converter.WeatherListConverter
 import com.baims.dailyforcast.data.local.converter.WindEntityConverter
 import com.baims.dailyforcast.data.local.dao.WeatherDao
-import com.baims.dailyforcast.data.local.entity.WeatherEntity
+import com.baims.dailyforcast.data.local.entity.WeatherResponseEntity
 
 @Database(
-    entities = [WeatherEntity::class], version = 1, exportSchema = false
+    entities = [WeatherResponseEntity::class], version = 1, exportSchema = false
 )
 @TypeConverters(
     CityEntityConverter::class,

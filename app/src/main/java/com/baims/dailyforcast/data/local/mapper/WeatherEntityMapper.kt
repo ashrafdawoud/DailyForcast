@@ -29,42 +29,42 @@ fun WeatherResponseModel.toWeatherResponseEntity(cityId:Int): WeatherResponseEnt
         cityId = cityId,
         message = message,
         cnt = cnt,
-        list = list.map { it.toWeatherItemEntity() },
-        city = city.toCityModel()
+        list = list?.map { it.toWeatherItemEntity() },
+        city = city?.toCityModel()
     )
 fun WeatherResponseEntity.toWeatherResponseModel(): WeatherResponseModel =
     WeatherResponseModel(
         cod = cod,
         message = message,
         cnt = cnt,
-        list = list.map { it.toWeatherItemModel() },
-        city = city.toCityModel()
+        list = list?.map { it.toWeatherItemModel() },
+        city = city?.toCityModel()
     )
 fun WeatherItemEntity.toWeatherItemModel(): WeatherItemModel =
     WeatherItemModel(
         dt = dt,
-        main = main.toWeatherModel(),
-        weather = weather.map { it.toWeatherModel() },
-        clouds = clouds.toCloudsModel(),
-        wind = wind.toWindModel(),
+        main = main?.toWeatherModel(),
+        weather = weather?.map { it.toWeatherModel() },
+        clouds = clouds?.toCloudsModel(),
+        wind = wind?.toWindModel(),
         visibility = visibility,
         pop = pop,
         rain = rain?.toRainModel(),
-        sys = sys.toSysModel(),
+        sys = sys?.toSysModel(),
         dtTxt = dtTxt
     )
 
 fun WeatherItemModel.toWeatherItemEntity(): WeatherItemEntity =
     WeatherItemEntity(
         dt = dt,
-        main = main.toWeatherModel(),
-        weather = weather.map { it.toWeatherEntity() },
-        clouds = clouds.toCloudsEntity(),
-        wind = wind.toWindEntity(),
+        main = main?.toWeatherModel(),
+        weather = weather?.map { it.toWeatherEntity() },
+        clouds = clouds?.toCloudsEntity(),
+        wind = wind?.toWindEntity(),
         visibility = visibility,
         pop = pop,
         rain = rain?.toRainEntity(),
-        sys = sys.toSysEntity(),
+        sys = sys?.toSysEntity(),
         dtTxt = dtTxt
     )
 
@@ -111,7 +111,7 @@ fun CityEntity.toCityModel(): CityResponseModel =
     CityResponseModel(
         id = id,
         name = name,
-        cord = cord.toModel(),
+        cord = cord?.toModel(),
         country = country,
         population = population,
         timezone = timezone,
@@ -123,7 +123,7 @@ fun CityResponseModel.toCityModel(): CityEntity =
     CityEntity(
         id = id,
         name = name,
-        cord = cord.toModel(),
+        cord = cord?.toModel(),
         country = country,
         population = population,
         timezone = timezone,
