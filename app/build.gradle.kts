@@ -1,8 +1,16 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
 }
+
+val apikeyPropertiesFile = rootProject.file("gradle.properties")
+val apikeyProperties = Properties()
+apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
 
 android {
     namespace = "com.baims.dailyforcast"
@@ -18,6 +26,10 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
             useSupportLibrary = true
+        }
+        buildConfigField("String", "FORECAST_API_KEY", apikeyProperties.getProperty("FORECAST_API_KEY"))
+        buildFeatures {
+            buildConfig = true
         }
     }
 
