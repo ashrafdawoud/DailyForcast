@@ -1,6 +1,7 @@
 package com.baims.dailyforcast.presentation.screens
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.baims.dailyforcast.domain.model.CityModel
 import com.baims.dailyforcast.presentation.screens.components.MainCard
 import com.baims.dailyforcast.presentation.screens.components.WeatherForecastCard
 import com.baims.dailyforcast.presentation.screens.model.event.ForeCastEvent
@@ -34,6 +38,7 @@ fun ForeCastHomeScreen(foreCastViewModel: ForeCastViewModel = hiltViewModel()) {
     val isFromCache by foreCastViewModel.isFromCache.collectAsStateWithLifecycle()
     val isLoading by foreCastViewModel.isLoading.collectAsStateWithLifecycle()
     val isError by foreCastViewModel.isError.collectAsStateWithLifecycle()
+    val selectedCity = remember { mutableStateOf<CityModel>(CityModel()) }
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = Color.Black,
@@ -59,6 +64,7 @@ fun ForeCastHomeScreen(foreCastViewModel: ForeCastViewModel = hiltViewModel()) {
                         cites = cites,
                         paddingValue = paddingValue,
                         onCitySelect = { city ->
+                            selectedCity.value = city
                             foreCastViewModel.onTriggerEvent(ForeCastEvent.OnSelectCity(city))
                         }
                     )
@@ -82,10 +88,13 @@ fun ForeCastHomeScreen(foreCastViewModel: ForeCastViewModel = hiltViewModel()) {
                 ) {
 
                     Text(
-                        text = "Something went wrong",
+                        text = "Something went wrong \n Retry Now",
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 20.dp),
+                            .padding(vertical = 20.dp)
+                            .clickable {
+                                foreCastViewModel.onTriggerEvent(ForeCastEvent.OnSelectCity(selectedCity.value))
+                            },
                         textAlign = TextAlign.Center,
                         color = Color.White
                     )

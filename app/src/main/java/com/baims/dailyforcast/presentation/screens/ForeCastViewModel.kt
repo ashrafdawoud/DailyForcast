@@ -59,12 +59,14 @@ class ForeCastViewModel @Inject constructor(
                 when (it) {
                     is DataState.Loading -> {
                         _isLoading.value = true
+                        _isError.value =false
                     }
 
                     is DataState.Success -> {
                         _weatherPresentationModel.value = it.data.toWeatherPresentationListModel() ?: listOf()
                         _isFromCache.value = it.isFromCache
                         _isLoading.value = false
+                        _isError.value =false
                     }
 
                     is DataState.Error -> {
