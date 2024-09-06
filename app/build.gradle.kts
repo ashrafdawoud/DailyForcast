@@ -81,6 +81,8 @@ dependencies {
     implementation(libs.squareup.gson)
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
+    implementation(libs.coil.compose)
+    implementation(libs.androidx.lifecycle.runtime.compose.android)
     annotationProcessor(libs.room.compiler)
     kapt(libs.room.compiler)
     implementation(libs.dagger.hilt.android)

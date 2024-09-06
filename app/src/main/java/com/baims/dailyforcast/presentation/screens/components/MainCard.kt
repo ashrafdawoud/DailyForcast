@@ -13,11 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.Icon
@@ -33,10 +31,18 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.baims.dailyforcast.R
+import com.baims.dailyforcast.domain.model.CityModel
+import com.baims.dailyforcast.presentation.screens.model.state.WeatherPresentationModel
 
 @Composable
-fun MainCard(paddingValue: PaddingValues) {
+fun MainCard(
+    weatherPresentationModel: WeatherPresentationModel,
+    paddingValue: PaddingValues,
+    cites: Array<CityModel>,
+    onCitySelect: (CityModel) -> Unit
+) {
     Column(
         modifier = Modifier
             .background(
@@ -50,13 +56,12 @@ fun MainCard(paddingValue: PaddingValues) {
             .height(500.dp)
             .fillMaxWidth()
     ) {
-        val cites = listOf("Cairo", "Benha", "Alex")
         DropdownList(
-            items = cites,
+            cities = cites,
             selected = cites.first(),
-            onSelection = {}
+            onSelection = onCitySelect
         )
-        WeatherMainCard()
+        WeatherMainCard(weatherPresentationModel)
         Spacer(
             modifier = Modifier
                 .padding(bottom = 32.dp)
@@ -64,15 +69,15 @@ fun MainCard(paddingValue: PaddingValues) {
                 .fillMaxWidth()
                 .background(color = Color.LightGray)
         )
-        WeatherDetailsCard()
+        WeatherDetailsCard(weatherPresentationModel)
     }
 }
 
 @Composable
 private fun DropdownList(
-    items: List<String>,
-    selected: String,
-    onSelection: (String) -> Unit
+    cities: Array<CityModel>,
+    selected: CityModel,
+    onSelection: (CityModel) -> Unit
 ) {
     val expanded = remember { mutableStateOf(false) }
     val selectedCity = remember { mutableStateOf(selected) }
@@ -88,7 +93,7 @@ private fun DropdownList(
                     contentDescription = ""
                 )
                 Text(
-                    text = selectedCity.value,
+                    text = selectedCity.value.cityNameEn,
                     style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp),
                     modifier = Modifier.padding(start = 5.dp, end = 8.dp)
                 )
@@ -103,17 +108,18 @@ private fun DropdownList(
             expanded = expanded.value,
             onDismissRequest = { }
         ) {
-            items.forEach { item ->
+            cities.forEach { city ->
                 DropdownMenuItem(
                     text = {
                         Text(
-                            text = item,
+                            text = city.cityNameEn,
                             style = MaterialTheme.typography.titleLarge.copy(fontSize = 20.sp)
                         )
                     },
                     onClick = {
                         expanded.value = false
-                        selectedCity.value = item
+                        selectedCity.value = city
+                        onSelection.invoke(city)
                     })
             }
         }
@@ -121,7 +127,7 @@ private fun DropdownList(
 }
 
 @Composable
-private fun WeatherMainCard() {
+private fun WeatherMainCard(weatherPresentationModel: WeatherPresentationModel) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,30 +137,27 @@ private fun WeatherMainCard() {
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // Sun icon
-            Image(
-                painter = painterResource(id = R.drawable.ic_sun), // Replace with your sun icon
+            AsyncImage(
+                model = weatherPresentationModel.iconUrl,
                 contentDescription = "Sun",
                 modifier = Modifier.size(80.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
-            // Tomorrow
+
             Text(
-                text = "Tomorrow",
+                text = weatherPresentationModel.dayName,
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp),
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
-            // Temperature
             Text(
-                text = "14°",
+                text = weatherPresentationModel.temperatureDegrees,
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 50.sp),
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(8.dp))
-            // Clear Sky
             Text(
-                text = "Clear Sky",
+                text = weatherPresentationModel.temperatureStatus.status,
                 style = MaterialTheme.typography.titleLarge.copy(fontSize = 24.sp),
                 color = Color.White
             )
@@ -163,7 +166,7 @@ private fun WeatherMainCard() {
 }
 
 @Composable
-private fun WeatherDetailsCard() {
+private fun WeatherDetailsCard(weatherPresentationModel: WeatherPresentationModel) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -174,17 +177,17 @@ private fun WeatherDetailsCard() {
         WeatherDetailItem(
             icon = painterResource(id = R.drawable.wet_pow),
             label = "Wet Pows",
-            value = "0%"
+            value = weatherPresentationModel.wetBows
         )
         WeatherDetailItem(
             icon = painterResource(id = R.drawable.ic_wind),
             label = "Windy Fur",
-            value = "45 km/h"
+            value = weatherPresentationModel.windSpeed
         )
         WeatherDetailItem(
             icon = painterResource(id = R.drawable.ic_thunder_storm),
-            label = "Thunderstorm",
-            value = "2%"
+            label = "Cloud",
+            value = weatherPresentationModel.cloud
         )
     }
 }
@@ -215,7 +218,7 @@ fun WeatherDetailItem(icon: Painter, label: String, value: String) {
 }
 
 @Composable
-fun WeatherForecastCard() {
+fun WeatherForecastCard(item: WeatherPresentationModel) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -230,14 +233,14 @@ fun WeatherForecastCard() {
                 .padding(horizontal = 22.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            Text(text = "Sun", style = MaterialTheme.typography.bodyLarge, color = Color.White)
-            Image(
-                painter = painterResource(id = R.drawable.ic_sun),
+            Text(text = item.dayName, style = MaterialTheme.typography.bodyLarge, color = Color.White)
+            AsyncImage(
+                model = item.iconUrl,
                 contentDescription = "Thunderstorm",
                 modifier = Modifier.size(24.dp)
             )
-            Text(text = "Thunderstorm", style = MaterialTheme.typography.bodyMedium, color = Color.White)
-            Text(text = "16°", style = MaterialTheme.typography.bodyMedium, color = Color.White)
+            Text(text = item.temperatureStatus.status, style = MaterialTheme.typography.bodyMedium, color = Color.White)
+            Text(text = item.temperatureDegrees, style = MaterialTheme.typography.bodyMedium, color = Color.White)
         }
     }
 }

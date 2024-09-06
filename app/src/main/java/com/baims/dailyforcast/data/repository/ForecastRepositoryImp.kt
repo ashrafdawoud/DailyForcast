@@ -29,32 +29,30 @@ class ForecastRepositoryImp(
                 if (weatherResponse.isSuccessful) {
                     weatherResponse.body()?.let { responseBody ->
                         val weatherResponseModel = responseBody.toWeatherResponseModel()
-                        // Insert into local data source
                         forecastDataLocalDataSource.insertWeatherTable(
                             weatherResponseModel.toWeatherResponseEntity(cityModel.id)
                         )
-                        emit(DataState.Success(weatherResponseModel))
+                        emit(DataState.Success(data = weatherResponseModel))
                     } ?: run {
-                        // Handle null response body case
-                        handleEmptyResponse(cityModel.id)
+                        emit(handleEmptyResponse(cityModel.id))
                     }
                 } else {
-                    // Handle unsuccessful response, possibly with response code
-                    handleEmptyResponse(cityModel.id)
+                    emit(handleEmptyResponse(cityModel.id))
                 }
             } catch (e: Exception) {
-                // Log the exception for debugging
-                emit(DataState.Error(e))
+                emit(handleEmptyResponse(cityModel.id))
             }
         }
 
-    private suspend fun handleEmptyResponse(cityId: Int): Flow<DataState<WeatherResponseModel>> =
-        flow {
-            val cachedWeather = forecastDataLocalDataSource.getWeatherByCity(cityId)
-            if (cachedWeather.isNotEmpty()) {
-                emit(DataState.Success(cachedWeather.first().toWeatherResponseModel()))
-            } else {
-                emit(DataState.Error(Exception("no data found")))
-            }
+    private suspend fun handleEmptyResponse(cityId: Int): DataState<WeatherResponseModel> {
+        val cachedWeather = forecastDataLocalDataSource.getWeatherByCity(cityId)
+        return if (cachedWeather.isNotEmpty()) {
+            DataState.Success(
+                isFromCache = true,
+                data = cachedWeather.first().toWeatherResponseModel()
+            )
+        } else {
+            DataState.Error(Exception("no data found"))
         }
+    }
 }
