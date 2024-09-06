@@ -38,6 +38,9 @@ class ForeCastViewModel @Inject constructor(
     private val _isLoading: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    private val _isError: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val isError: StateFlow<Boolean> = _isError
+
     init {
         getCites()
     }
@@ -66,6 +69,7 @@ class ForeCastViewModel @Inject constructor(
 
                     is DataState.Error -> {
                         _isLoading.value = false
+                        _isError.value = true
                     }
                 }
             }

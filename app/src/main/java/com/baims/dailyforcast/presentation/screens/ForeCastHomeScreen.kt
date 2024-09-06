@@ -11,10 +11,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarData
-import androidx.compose.material3.SnackbarDefaults
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,6 +33,7 @@ fun ForeCastHomeScreen(foreCastViewModel: ForeCastViewModel = hiltViewModel()) {
     val cites by foreCastViewModel.cites.collectAsStateWithLifecycle()
     val isFromCache by foreCastViewModel.isFromCache.collectAsStateWithLifecycle()
     val isLoading by foreCastViewModel.isLoading.collectAsStateWithLifecycle()
+    val isError by foreCastViewModel.isError.collectAsStateWithLifecycle()
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         containerColor = Color.Black,
@@ -76,6 +73,23 @@ fun ForeCastHomeScreen(foreCastViewModel: ForeCastViewModel = hiltViewModel()) {
                     modifier = Modifier.size(50.dp),
                     color = Color.White
                 )
+            if (isError)
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(color = Color.Black.copy(alpha = 0.7f)),
+                    contentAlignment = Alignment.Center
+                ) {
+
+                    Text(
+                        text = "Something went wrong",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 20.dp),
+                        textAlign = TextAlign.Center,
+                        color = Color.White
+                    )
+                }
         }
     }
 }
